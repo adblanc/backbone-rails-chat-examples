@@ -61,7 +61,7 @@ export default class ChatView extends Backbone.View {
 
   render() {
     this.$el.html(
-      "<div><div id='messages'> </div> <input id='input-msg' type='text'></div>"
+      "<div><div id='messages'> </div><label><input id='input-msg' placeholder='Send a message' type='text'></div>"
     );
 
     return this;
