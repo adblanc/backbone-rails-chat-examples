@@ -1,7 +1,8 @@
-import Rooms from "./collection/Room";
+import Rooms from "./collection/Rooms";
 import ChatView from "./view/ChatView";
 import CreateRoomView from "./view/CreateRoomView";
 import RoomsView from "./view/RoomsView";
+import UserView from "./view/UserView";
 
 export function main() {
   document.addEventListener("turbolinks:load", () => {
@@ -12,6 +13,8 @@ export function main() {
     const rooms = new Rooms();
 
     rooms.fetch();
+
+    $("body").prepend(new UserView().render().el);
 
     $("body").append(new RoomsView({ rooms }).render().el);
 

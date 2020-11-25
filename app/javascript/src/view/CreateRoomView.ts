@@ -1,5 +1,5 @@
 import Backbone from "backbone";
-import Rooms from "src/collection/Room";
+import Rooms from "src/collection/Rooms";
 import Room from "src/model/Room";
 import { ViewRoomsOptions } from "./RoomsView";
 

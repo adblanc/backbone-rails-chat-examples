@@ -1,7 +1,8 @@
 import Backbone from "backbone";
-import Rooms from "src/collection/Room";
+import Rooms from "src/collection/Rooms";
 import Message from "src/model/Message";
 import Room from "src/model/Room";
+import RoomView from "./RoomView";
 
 export type ViewRoomsOptions = Backbone.ViewOptions & {
   rooms: Rooms;
@@ -19,11 +20,7 @@ export default class RoomsView extends Backbone.View {
   }
 
   renderRoom(room: Room) {
-    this.$("#rooms").append(
-      `<div style="cursor: pointer;" id="room-${room.get("id")}">${room.get(
-        "name"
-      )}</div>`
-    );
+    this.$("#rooms").append(new RoomView({ model: room }).render().el);
   }
 
   removeRoom(room: Room) {
