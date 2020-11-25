@@ -2,7 +2,7 @@ import Backbone from "backbone";
 import Room from "src/model/Room";
 
 export default class Rooms extends Backbone.Collection<Room> {
-  private selectedRoom: Room;
+  private _selectedRoom: Room;
   preinitialize() {
     this.model = Room;
   }
@@ -10,14 +10,23 @@ export default class Rooms extends Backbone.Collection<Room> {
   constructor() {
     super();
 
-    this.selectedRoom = undefined;
+    this._selectedRoom = undefined;
+    this.listenToOnce(this, "add", this.initSelectedRoom);
+  }
+
+  initSelectedRoom(firstRoom: Room) {
+    firstRoom.select();
+  }
+
+  public get selectedRoom(): Readonly<Room | undefined> {
+    return this._selectedRoom;
   }
 
   setSelected(room: Room) {
     if (this.selectedRoom) {
       this.selectedRoom.toggle();
     }
-    this.selectedRoom = room;
+    this._selectedRoom = room;
     this.selectedRoom.toggle();
   }
 

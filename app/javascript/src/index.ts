@@ -6,17 +6,16 @@ import UserView from "./view/UserView";
 
 export function main() {
   document.addEventListener("turbolinks:load", () => {
-    const chatView = new ChatView();
-
-    $("body").html(chatView.render().el);
-
     const rooms = new Rooms();
-
     rooms.fetch();
 
-    $("body").prepend(new UserView().render().el);
+    const roomsView = new RoomsView({ rooms });
+    const chatView = new ChatView({ rooms });
 
-    $("body").append(new RoomsView({ rooms }).render().el);
+    $("body").append(new UserView().render().el);
+    $("body").append(chatView.render().el);
+
+    $("body").append(roomsView.render().el);
 
     $("body").append(new CreateRoomView({ rooms }).render().el);
   });

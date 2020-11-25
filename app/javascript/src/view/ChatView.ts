@@ -1,32 +1,23 @@
 import Backbone from "backbone";
-import consumer from "channels/consumer";
 import Messages from "src/collection/Messages";
-import Message, { IMessage } from "src/model/Message";
+import Rooms from "src/collection/Rooms";
+import Message from "src/model/Message";
+import { ViewRoomsOptions } from "./RoomsView";
 
 export default class ChatView extends Backbone.View {
-  room: ActionCable.Channel;
+  room: ActionCable.Channel | undefined;
+  room_id: number;
+  rooms: Rooms;
   messages: Messages;
 
   preinitialize() {
     this.messages = new Messages();
-
-    this.room = consumer.subscriptions.create(
-      { channel: "RoomChannel" },
-      {
-        connected() {
-          console.log("connected");
-        },
-        received: (data: IMessage) => {
-          this.messages.add(new Message({ content: data.content }));
-        },
-      }
-    );
   }
 
-  constructor() {
-    super();
+  constructor(options: ViewRoomsOptions) {
+    super(options);
 
-    this.listenTo(this.messages, "add", this.renderMsg);
+    this.rooms = options.rooms;
   }
 
   events() {
@@ -44,7 +35,10 @@ export default class ChatView extends Backbone.View {
         return;
       }
 
-      const message = new Message({ content });
+      const message = new Message({
+        content,
+        room_id: this.rooms.selectedRoom.get("id"),
+      });
       message.save();
 
       this.clearInput();
@@ -53,10 +47,6 @@ export default class ChatView extends Backbone.View {
 
   clearInput() {
     this.$("#input-msg").val("");
-  }
-
-  renderMsg(message: Message) {
-    this.$("#messages").append(`<div>${message.get("content")}</div>`);
   }
 
   render() {

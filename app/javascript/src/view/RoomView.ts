@@ -1,7 +1,10 @@
 import Backbone from "backbone";
+import consumer from "channels/consumer";
+import Message, { IMessage } from "src/model/Message";
 import Room from "src/model/Room";
 
 export default class RoomView extends Backbone.View<Room> {
+  channel: ActionCable.Channel;
   constructor(options?: Backbone.ViewOptions<Room>) {
     super(options);
 
@@ -10,6 +13,7 @@ export default class RoomView extends Backbone.View<Room> {
     }
 
     this.listenTo(this.model, "change", this.render);
+    this.listenTo(this.model.messages, "add", this.renderMsg);
   }
 
   events() {
@@ -19,7 +23,14 @@ export default class RoomView extends Backbone.View<Room> {
   }
 
   onClick() {
-    this.model.select();
+    if (!this.model.get("selected")) {
+      $("#messages").html("");
+      this.model.select();
+    }
+  }
+
+  renderMsg(message: Message) {
+    $("#messages").append(`<div>${message.get("content")}</div>`);
   }
 
   render() {

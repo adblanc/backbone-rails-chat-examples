@@ -1,6 +1,5 @@
 import Backbone from "backbone";
 import Rooms from "src/collection/Rooms";
-import Message from "src/model/Message";
 import Room from "src/model/Room";
 import RoomView from "./RoomView";
 
