@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :message
+  resources :users
+  resources :room_messages
   resources :room
 
 
