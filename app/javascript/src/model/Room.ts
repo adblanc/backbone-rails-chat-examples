@@ -28,9 +28,8 @@ export default class Room extends Backbone.Model<IRoom> {
         connected: () => {
           console.log("connected to", room_id);
         },
-        received: ({ content, room_id }: IMessage) => {
-          console.log("we received", content);
-          this.messages.add(new Message({ content, room_id }));
+        received: (message: IMessage) => {
+          this.messages.add(new Message(message));
         },
       }
     );

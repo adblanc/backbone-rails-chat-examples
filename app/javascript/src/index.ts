@@ -1,8 +1,14 @@
+import _ from "underscore";
+
 import Rooms from "./collection/Rooms";
 import ChatView from "./view/ChatView";
 import CreateRoomView from "./view/CreateRoomView";
 import RoomsView from "./view/RoomsView";
 import UserView from "./view/UserView";
+
+_.templateSettings = {
+  interpolate: /\{\{(.+?)\}\}/g,
+};
 
 export function main() {
   document.addEventListener("turbolinks:load", () => {

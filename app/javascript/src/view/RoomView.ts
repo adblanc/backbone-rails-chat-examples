@@ -2,6 +2,7 @@ import Backbone from "backbone";
 import consumer from "channels/consumer";
 import Message, { IMessage } from "src/model/Message";
 import Room from "src/model/Room";
+import MessageView from "./MessageView";
 
 export default class RoomView extends Backbone.View<Room> {
   channel: ActionCable.Channel;
@@ -30,7 +31,7 @@ export default class RoomView extends Backbone.View<Room> {
   }
 
   renderMsg(message: Message) {
-    $("#messages").append(`<div>${message.get("content")}</div>`);
+    $("#messages").append(new MessageView({ model: message }).render().el);
   }
 
   render() {
